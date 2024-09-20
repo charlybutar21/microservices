@@ -1,23 +1,21 @@
-package com.charly.order;
+package com.charly.microservices.inventory;
 
-import com.charly.order.stubs.InventoryClientStub;
 import io.restassured.RestAssured;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.testcontainers.containers.MySQLContainer;
-import static org.hamcrest.MatcherAssert.assertThat;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Import(TestcontainersConfiguration.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureWireMock(port = 0)
-class OrderServiceApplicationTests {
+class InventoryServiceApplicationTests {
 
 	@ServiceConnection
 	static MySQLContainer mySQLContainer = new MySQLContainer("mysql:8.3.0");
@@ -35,28 +33,35 @@ class OrderServiceApplicationTests {
 	}
 
 	@Test
-	void shouldSubmitOrder() {
-		String requestBody = """
-                    {
-                      "skuCode": "iphone_15",
-                      "price": 12000,
-                      "quantity": 1
-                    }
-                """;
+	void shouldReturnAvailableInventory() {
 
-		InventoryClientStub.stubInventoryCall("iphone_15", 1);
-
-		String responseBody = RestAssured.given()
+		Boolean response = RestAssured.given()
 				.contentType("application/json")
-				.body(requestBody)
 				.when()
-				.post("api/order")
+				.get("api/inventory?skuCode=iphone_15&quantity=1")
 				.then()
-				.statusCode(HttpStatus.CREATED.value())
+				.log().all()
+				.statusCode(HttpStatus.OK.value())
 				.extract()
-				.body().asString();
+				.response().as(Boolean.class);
 
-		assertThat(responseBody, Matchers.is("Order Placed Successfully"));
+		assertTrue(response);
+	}
+
+	@Test
+	void shouldReturnUnavailableInventory() {
+
+		Boolean response = RestAssured.given()
+				.contentType("application/json")
+				.when()
+				.get("api/inventory?skuCode=iphone_15&quantity=1000")
+				.then()
+				.log().all()
+				.statusCode(HttpStatus.OK.value())
+				.extract()
+				.response().as(Boolean.class);
+
+		assertFalse(response);
 	}
 
 }

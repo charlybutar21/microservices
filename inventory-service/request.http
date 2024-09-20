@@ -1,0 +1,2 @@
+### GET stock inventory
+GET http://localhost:8082/api/inventory?skuCode=iphone_15&quantity=101
