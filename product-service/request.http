@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
   "name": "Cucurella",
-  "description": "Hahahah",
-  "skuCode": "cucu",
+  "description": "Minuman Kemasan Manis",
+  "skuCode": "cucu001",
   "price": 1200
 }
 
