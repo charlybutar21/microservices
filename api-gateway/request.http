@@ -1,0 +1,26 @@
+### POST product
+POST localhost:9000/api/product
+Content-Type: application/json
+
+{
+  "name": "Cucurella",
+  "description": "Minuman Kemasan Manis",
+  "skuCode": "cucu001",
+  "price": 1200
+}
+
+### GET products
+GET localhost:9000/api/product
+
+### Place order
+POST localhost:9000/api/order
+Content-Type: application/json
+
+{
+  "skuCode": "iphone_15",
+  "price": 12000,
+  "quantity": 1
+}
+
+### GET stock inventory
+GET http://localhost:9000/api/inventory?skuCode=iphone_15&quantity=1
