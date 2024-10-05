@@ -27,7 +27,7 @@ public class NotificationService {
             messageHelper.setTo(orderPlacedEvent.getEmail().toString());
             messageHelper.setSubject(String.format("Your Order with OrderNumber %s is placed successfully", orderPlacedEvent.getOrderNumber()));
             messageHelper.setText(String.format("""
-                            Hi %s,%s
+                            Hi %s %s,
 
                             Your order with order number %s is now placed successfully.
                             
