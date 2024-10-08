@@ -8,6 +8,7 @@ This repository contains some spring-boot-microservices.
 - Inventory Service
 - Notification Service
 - API Gateway using Spring Cloud Gateway MVC
+- Discovery Server
 
 
 ## The technologies used in this project are:
@@ -19,6 +20,7 @@ This repository contains some spring-boot-microservices.
 - Test Containers with Wiremock
 - Grafana Stack (Prometheus, Grafana, Loki and Tempo)
 - API Gateway using Spring Cloud Gateway MVC
+- Spring Cloud Netflix Eureka
 
 ## Application Architecture
 ![img.png](img.png)
